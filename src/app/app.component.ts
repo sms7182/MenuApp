@@ -8,9 +8,5 @@ import { Component } from '@angular/core';
   providers:[]
 })
 export class AppComponent {
-  loadedfeatuer='recipe';
-  onNavigate(nav:string){
-   
-     this.loadedfeatuer=nav;
-  }
+  
 }
