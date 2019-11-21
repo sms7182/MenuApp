@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Recipe } from '../../recipe.model';
-import { NumberSymbol } from '@angular/common';
+
 
 
 @Component({
