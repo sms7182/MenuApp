@@ -27,7 +27,7 @@ export class RecipeService{
         this.recipesChanged.next(this.recipes.slice())
       }
       getRecipes(){
-        debugger;
+        
           return this.recipes.slice();
       }
       getRecipe(id:number){
