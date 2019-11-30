@@ -21,6 +21,8 @@ import { AuthComponent } from './auth/auth.component';
 
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner-component';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
+import { AlertComponent } from './shared/alert/alert.component';
+import { PlaceHolderDirective } from './shared/placeholder/placeholder.directive';
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,7 +35,7 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
     ShoppingEditComponent,
     DropDownDirective,
     RecipeStartComponent,
-    RecipeEditComponent,AuthComponent,LoadingSpinnerComponent
+    RecipeEditComponent,AuthComponent,LoadingSpinnerComponent,AlertComponent,PlaceHolderDirective
   ],
   imports: [
     BrowserModule,
@@ -43,6 +45,7 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
     AppRoutingModule
   ],
   providers: [ShoppingListService,RecipeService,{provide:HTTP_INTERCEPTORS,useClass:AuthInterceptorService,multi:true}],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents:[AlertComponent]
 })
 export class AppModule { }
