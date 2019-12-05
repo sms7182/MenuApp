@@ -13,7 +13,8 @@ import {  ReactiveFormsModule } from '@angular/forms';
 
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core.module';
-import { AuthModule } from './auth/auth.module';
+import { LoggingService } from './logging.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,6 +35,7 @@ import { AuthModule } from './auth/auth.module';
   ],
 
   bootstrap: [AppComponent],
+ // providers:[LoggingService]
   
 })
 export class AppModule { }

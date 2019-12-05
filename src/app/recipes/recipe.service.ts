@@ -8,7 +8,8 @@ import { ShoppingListService } from '../shopping-list/shopping-list.service';
 
 
 
-@Injectable({providedIn:'root'})
+// @Injectable({providedIn:'root'})
+@Injectable()
 export class RecipeService{
     recipesChanged=new Subject<Recipe[]>();
   
