@@ -5,8 +5,9 @@ import { Subject } from 'rxjs';
 
 
 import { Ingredient } from '../shared/ingredient.model';
-import { ShoppingListService } from '../shopping-list/shopping-list.service';
+
 import * as ShoppingListActions from '../shopping-list/store/shopping-list.actions'
+import * as fromShoppingList from '../shopping-list/store/shopping-list.reducer';
 
 
 
@@ -20,7 +21,7 @@ export class RecipeService{
         new Recipe('another test','test description','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwF5fjgVl9c88z-4CN26iWaHP2gX7k7QGAotjZsJ13s3O5OctuQg&s',[new Ingredient('bread',1),new Ingredient('egg',5)])
       ];
  // private recipes:Recipe[]=[];
-      constructor(private shpls:ShoppingListService,private store:Store<{shoppingList:{ingredients:Ingredient[]}}>){
+      constructor(private store:Store<fromShoppingList.AppState>){
 
       }
 
