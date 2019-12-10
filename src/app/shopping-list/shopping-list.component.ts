@@ -5,8 +5,7 @@ import{Store} from '@ngrx/store' ;
 import {Ingredient} from '../shared/ingredient.model';
 
 import { LoggingService } from '../logging.service';
-
-import * as fromShoppingList from '../shopping-list/store/shopping-list.reducer';
+import * as fromApp from '../store/app.reducer'
 import * as ShoppingListActions from '../shopping-list/store/shopping-list.actions';
 
 
@@ -19,7 +18,7 @@ export class ShoppingListComponent implements OnInit,OnDestroy {
    ingredients:Observable<{ingredients:Ingredient[]}> ;
    private igChangeSub:Subscription;
   
-  constructor(private loggingService:LoggingService,private store:Store<fromShoppingList.AppState>) {
+  constructor(private loggingService:LoggingService,private store:Store<fromApp.AppState>) {
     
 
    }

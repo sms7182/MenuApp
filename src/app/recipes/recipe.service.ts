@@ -7,9 +7,9 @@ import { Subject } from 'rxjs';
 import { Ingredient } from '../shared/ingredient.model';
 
 import * as ShoppingListActions from '../shopping-list/store/shopping-list.actions'
-import * as fromShoppingList from '../shopping-list/store/shopping-list.reducer';
 
 
+import * as fromApp from '../store/app.reducer'
 
 // @Injectable({providedIn:'root'})
 @Injectable()
@@ -21,7 +21,7 @@ export class RecipeService{
         new Recipe('another test','test description','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwF5fjgVl9c88z-4CN26iWaHP2gX7k7QGAotjZsJ13s3O5OctuQg&s',[new Ingredient('bread',1),new Ingredient('egg',5)])
       ];
  // private recipes:Recipe[]=[];
-      constructor(private store:Store<fromShoppingList.AppState>){
+      constructor(private store:Store<fromApp.AppState>){
 
       }
 
