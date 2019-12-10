@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, ViewChild, OnDestroy } from '@angular/core';
+import { Component, ComponentFactoryResolver, ViewChild, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
@@ -6,22 +6,32 @@ import { AuthService, AuthResponseData } from './auth.service';
 
 import {AlertComponent} from '../shared/alert/alert.component'
 import { PlaceHolderDirective } from '../shared/placeholder/placeholder.directive';
-import { hostViewClassName } from '@angular/compiler';
+import * as fromApp  from '../store/app.reducer'
+import { Store } from '@ngrx/store';
+import * as AuthActions from './store/auth.actions'
 
 @Component({
     selector:'app-auth',
     templateUrl:'./auth.component.html'
 })
-export class AuthComponent implements OnDestroy{
+export class AuthComponent implements OnInit, OnDestroy{
  isLoginMode=true;
  isLoading=false;
  error:string=null;
  @ViewChild(PlaceHolderDirective,{static:false}) alertHost:PlaceHolderDirective;
  private closeSub:Subscription;
- constructor(private authservice:AuthService,private router:Router,private componentFactoryResolver:ComponentFactoryResolver){
+ constructor(private authservice:AuthService,private router:Router,private componentFactoryResolver:ComponentFactoryResolver,private store:Store<fromApp.AppState>){
 
  }
- 
+ ngOnInit(){
+    this.store.select('auth').subscribe(authState=>{
+      this.isLoading=authState.loading; 
+      this.error=authState.authError;
+      if(this.error){
+          this.showErrorAlert(this.error);
+      }  
+    })
+ }
  onSwitchMode(){
      this.isLoginMode=!this.isLoginMode;
  }
@@ -35,24 +45,26 @@ export class AuthComponent implements OnDestroy{
         this.isLoading=true;
         let authObs:Observable<AuthResponseData>;
    if(this.isLoginMode){
-      authObs= this.authservice.login(email,password);
+    this.store.dispatch(new AuthActions.LoginStart({email:email,password:password}));
+    //  authObs= this.authservice.login(email,password);
    }
    else{
     
         authObs= this.authservice.signUp(email,password);
     }
-    authObs.subscribe(rs=>{
-        this.isLoading=false;
-        console.log(rs);
-        this.router.navigate(['/recipes'])
-    },errorMessage=>{
+   
+    // authObs.subscribe(rs=>{
+    //     this.isLoading=false;
+    //     console.log(rs);
+    //     this.router.navigate(['/recipes'])
+    // },errorMessage=>{
             
-      this.isLoading=false;
-      this.error=errorMessage;
-    this.showErrorAlert(errorMessage);
-      console.log(errorMessage);
+    //   this.isLoading=false;
+    //   this.error=errorMessage;
+    // this.showErrorAlert(errorMessage);
+    //   console.log(errorMessage);
     
-    });
+    // });
    form.reset();
  }
  onHandleError(){
