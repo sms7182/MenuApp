@@ -20,11 +20,16 @@ export class AuthComponent implements OnInit, OnDestroy{
  error:string=null;
  @ViewChild(PlaceHolderDirective,{static:false}) alertHost:PlaceHolderDirective;
  private closeSub:Subscription;
+private storeSub:Subscription;
+
+
+
+
  constructor(private authservice:AuthService,private router:Router,private componentFactoryResolver:ComponentFactoryResolver,private store:Store<fromApp.AppState>){
 
  }
  ngOnInit(){
-    this.store.select('auth').subscribe(authState=>{
+    this.storeSub=this.store.select('auth').subscribe(authState=>{
       this.isLoading=authState.loading; 
       this.error=authState.authError;
       if(this.error){
@@ -53,22 +58,10 @@ export class AuthComponent implements OnInit, OnDestroy{
         // authObs= this.authservice.signUp(email,password);
     }
    
-    // authObs.subscribe(rs=>{
-    //     this.isLoading=false;
-    //     console.log(rs);
-    //     this.router.navigate(['/recipes'])
-    // },errorMessage=>{
-            
-    //   this.isLoading=false;
-    //   this.error=errorMessage;
-    // this.showErrorAlert(errorMessage);
-    //   console.log(errorMessage);
-    
-    // });
    form.reset();
  }
  onHandleError(){
-     this.error=null;
+    this.store.dispatch(new AuthActions.ClearError());
  }
  private showErrorAlert(message:string){
   const alertComponentFactory=this.componentFactoryResolver.resolveComponentFactory(AlertComponent)
@@ -86,6 +79,9 @@ export class AuthComponent implements OnInit, OnDestroy{
  ngOnDestroy(){
      if(this.closeSub){
      this.closeSub.unsubscribe();
+    }
+    if(this.storeSub){
+        this.storeSub.unsubscribe();
     }
  }
 

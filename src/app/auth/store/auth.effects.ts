@@ -6,6 +6,7 @@ import * as AuthActions from './auth.actions';
 import {environment} from '../../../environments/environment.prod'
 import { of } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { User } from '../user.model';
 
 
 
@@ -24,6 +25,8 @@ export interface AuthResponseData{
 
 const handleAuthentication=(expiresIn:number,email:string,userId:string,token:string)=>{
   const expirationDate=new Date(new Date().getTime()+ expiresIn*1000);
+  const user=new User(email,userId,token,expirationDate);
+  localStorage.setItem('userData',JSON.stringify(user));
   return new AuthActions.AuthenticateSuccess({email:email,userId:userId,token:token,expirationDate:expirationDate});
 }
 const handleError=(errorresp:any)=>{
@@ -87,9 +90,38 @@ export class AuthEffects{
         );
 
         @Effect({dispatch:false })
-   authSuccess=this.actions$.pipe(ofType(AuthActions.AUTHENTICATE_SUCCESS),tap(()=>{
-     this.router.navigate(['/'])
-     
+      authRedirect=this.actions$.pipe(ofType(AuthActions.AUTHENTICATE_SUCCESS,AuthActions.LOGOUT),tap(()=>{
+     this.router.navigate(['/'])     
+      }))
+  
+      @Effect()
+      autoLogin=this.actions$.pipe(ofType(AuthActions.AUTO_LOGIN),map(()=>{
+        const userdata:{
+          email:string;
+          id:string;
+          _token:string;
+          _tokenExpirationDate:Date
+      
+        }=JSON.parse(localStorage.getItem('userData'));
+        if(!userdata){
+          return  {type:'DUMMY'};
+        }
+        const loadedUser=new User(userdata.email,userdata.id,userdata._token,new Date(userdata._tokenExpirationDate));
+        if(loadedUser.token){
+      
+        return new AuthActions.AuthenticateSuccess
+          ({
+            email:loadedUser.email,
+            userId:loadedUser.id,
+            token:loadedUser.token,
+            expirationDate:new Date(userdata._tokenExpirationDate)} );
+       
+        } return {type:'DUMMY'};
+      }))
+
+   @Effect({dispatch:false})
+   authLogout=this.actions$.pipe(ofType(AuthActions.LOGOUT),tap(()=>{
+   localStorage.removeItem('userData')
    }))
     constructor(private actions$:Actions,private http:HttpClient,private router:Router){
 
