@@ -1,8 +1,8 @@
 import { Component, ComponentFactoryResolver, ViewChild, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
-import { AuthService, AuthResponseData } from './auth.service';
+
+import {  Subscription } from 'rxjs';
+
 
 import {AlertComponent} from '../shared/alert/alert.component'
 import { PlaceHolderDirective } from '../shared/placeholder/placeholder.directive';
@@ -25,7 +25,7 @@ private storeSub:Subscription;
 
 
 
- constructor(private authservice:AuthService,private router:Router,private componentFactoryResolver:ComponentFactoryResolver,private store:Store<fromApp.AppState>){
+ constructor(private componentFactoryResolver:ComponentFactoryResolver,private store:Store<fromApp.AppState>){
 
  }
  ngOnInit(){
