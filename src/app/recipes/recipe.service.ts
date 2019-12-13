@@ -1,7 +1,8 @@
 import {  Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Recipe } from './recipe.model';
-import { Subject } from 'rxjs';
+
 
 
 import { Ingredient } from '../shared/ingredient.model';
@@ -17,8 +18,8 @@ export class RecipeService{
     recipesChanged=new Subject<Recipe[]>();
   
    private recipes: Recipe[]=[
-        new Recipe('test','test description','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwF5fjgVl9c88z-4CN26iWaHP2gX7k7QGAotjZsJ13s3O5OctuQg&s',[new Ingredient('meat',1),new Ingredient('french frises',5)]),
-        new Recipe('another test','test description','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwF5fjgVl9c88z-4CN26iWaHP2gX7k7QGAotjZsJ13s3O5OctuQg&s',[new Ingredient('bread',1),new Ingredient('egg',5)])
+      //  new Recipe('test','test description','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwF5fjgVl9c88z-4CN26iWaHP2gX7k7QGAotjZsJ13s3O5OctuQg&s',[new Ingredient('meat',1),new Ingredient('french frises',5)]),
+        //new Recipe('another test','test description','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwF5fjgVl9c88z-4CN26iWaHP2gX7k7QGAotjZsJ13s3O5OctuQg&s',[new Ingredient('bread',1),new Ingredient('egg',5)])
       ];
  // private recipes:Recipe[]=[];
       constructor(private store:Store<fromApp.AppState>){
@@ -26,7 +27,7 @@ export class RecipeService{
       }
 
       onSetRecipes(recipes:Recipe[]){
-        
+        debugger;
         this.recipes=recipes;
         this.recipesChanged.next(this.recipes.slice())
       }
