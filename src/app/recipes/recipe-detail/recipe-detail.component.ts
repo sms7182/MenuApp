@@ -8,7 +8,7 @@ import { Recipe } from '../recipe.model';
 import { RecipeService } from '../recipe.service';
 
 import * as fromApp from '../../store/app.reducer';
-
+import * as RecipeActions from '../store/recipe.actions'
 
 
 
@@ -49,7 +49,8 @@ id:number;
     this.router.navigate(['edit'],{relativeTo:this.route});
   }
   onDeleteRecipe(){
-    this.recipservie.deleteRecipe(this.id);
+    // this.recipservie.deleteRecipe(this.id);
     this.router.navigate(['/recipes']);
+    this.store.dispatch(new RecipeActions.DeleteRecipe(this.id));
   }
 }

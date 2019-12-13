@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 
 import { RecipeService } from '../recipe.service';
 import * as fromApp from '../../store/app.reducer';
-
+import * as RecipeAction from '../store/recipe.actions';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -95,10 +95,15 @@ constructor(
     // const newRecipe=new Recipe(this.recipeForm.value['name'],this.recipeForm.value['description'], this.recipeForm.value['imagePath'],this.recipeForm.value['ingredients']);
     if(this.editMode){
     
-      this.recipeService.updateRecipe(this.id,this.recipeForm.value)
+      //this.recipeService.updateRecipe(this.id,this.recipeForm.value)
+      this.store.dispatch(new RecipeAction.UpdateRecipe({
+        index:this.id,
+        newRecipe:this.recipeForm.value
+      }));
     }
     else{
-        this.recipeService.addRecipe(this.recipeForm.value);
+     //   this.recipeService.addRecipe(this.recipeForm.value);
+      this.store.dispatch(new RecipeAction.AddRecipe(this.recipeForm.value));
     }
     this.onCancel();
   }
