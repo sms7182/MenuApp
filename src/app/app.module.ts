@@ -16,6 +16,7 @@ import { CoreModule } from './core.module';
 
 import * as fromApp from './store/app.reducer';
 import { AuthEffects } from './auth/store/auth.effects';
+import { RecipeEffects } from './recipes/store/recipe.effects';
 
 
 @NgModule({
@@ -32,7 +33,7 @@ import { AuthEffects } from './auth/store/auth.effects';
     AppRoutingModule,
   
     StoreModule.forRoot(fromApp.appReducer),
-    EffectsModule.forRoot([AuthEffects]),
+    EffectsModule.forRoot([AuthEffects,RecipeEffects]),
    // AuthModule,
     SharedModule ,
     CoreModule
