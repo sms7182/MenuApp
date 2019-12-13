@@ -28,7 +28,12 @@ const handleAuthentication=(expiresIn:number,email:string,userId:string,token:st
   const expirationDate=new Date(new Date().getTime()+ expiresIn*1000);
   const user=new User(email,userId,token,expirationDate);
   localStorage.setItem('userData',JSON.stringify(user));
-  return new AuthActions.AuthenticateSuccess({email:email,userId:userId,token:token,expirationDate:expirationDate});
+  return new AuthActions.AuthenticateSuccess({
+    email:email,
+    userId:userId,
+    token:token,
+    expirationDate:expirationDate,
+  redirect:true});
 }
 const handleError=(errorresp:any)=>{
   let errorMessage='An unknown error occured!'
@@ -95,8 +100,12 @@ export class AuthEffects{
         );
 
         @Effect({dispatch:false })
-      authRedirect=this.actions$.pipe(ofType(AuthActions.AUTHENTICATE_SUCCESS),tap(()=>{
-     this.router.navigate(['/'])     
+      authRedirect=this.actions$.pipe(
+        ofType(AuthActions.AUTHENTICATE_SUCCESS),
+        tap((authSuccessAction:AuthActions.AuthenticateSuccess)=>{
+          if(authSuccessAction.payload.redirect){
+           this.router.navigate(['/'])     
+          }
       }))
   
       @Effect()
@@ -120,7 +129,8 @@ export class AuthEffects{
             email:loadedUser.email,
             userId:loadedUser.id,
             token:loadedUser.token,
-            expirationDate:new Date(userdata._tokenExpirationDate)} );
+            expirationDate:new Date(userdata._tokenExpirationDate),
+           redirect:false} );
        
         } return {type:'DUMMY'};
       }))
